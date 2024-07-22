@@ -19,8 +19,14 @@ export const authOptions = {
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
-      name: "Credentials",
+      name: "Phone number",
       credentials: {
+        name: {
+          label: "Name",
+          type: "text",
+          placeholder: "Name",
+          required: true,
+        },
         phone: {
           label: "Phone number",
           type: "text",
@@ -54,7 +60,6 @@ export const authOptions = {
             return {
               id: existingUser.id.toString(),
               name: existingUser.name,
-              email: existingUser.email,
               number: existingUser.number,
             };
           }
@@ -67,14 +72,14 @@ export const authOptions = {
         try {
           const user = await db.user.create({
             data: {
-              number: credentials.number,
+              name: credentials.name,
+              number: credentials.phone,
               password: hashedPassword,
             },
           });
           return {
             id: user.id.toString(),
             name: user.name,
-            email: user.email,
             number: user.number,
           };
         } catch (e) {
@@ -99,7 +104,7 @@ export const authOptions = {
       if (session.user) {
         session.user.id = token.id;
       }
-      console.log(session);
+      // console.log(session);
       return session;
     },
   },
