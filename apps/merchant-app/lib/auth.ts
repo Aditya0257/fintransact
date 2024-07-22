@@ -2,7 +2,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import db from "@repo/db/client";
 import { AuthType } from "@prisma/client";
-import type { NextAuthOptions } from "next-auth"
+import type { NextAuthOptions } from "next-auth";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -16,10 +16,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({
-      user,
-      account,
-    }: any) {
+    async signIn({ user, account }: any) {
       console.log("in signin callback in merchant app \n");
       console.log(user);
       console.log(account);

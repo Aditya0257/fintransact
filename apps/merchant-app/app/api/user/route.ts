@@ -4,10 +4,10 @@ import db from "@repo/db/client";
 export const GET = async () => {
   await db.user.create({
     data: {
-      number: "1231231231",
+      name: "randomperson",
       password: "randompassword",
-    }
-  })
+    },
+  });
   return NextResponse.json({
     message: "hi there",
   });

@@ -19,7 +19,7 @@ export const authOptions = {
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
-      name: "Email",
+      name: "Credentials",
       credentials: {
         phone: {
           label: "Phone number",
@@ -34,7 +34,7 @@ export const authOptions = {
           required: true,
         },
       },
-      async authorize(credentials: any, req: any) {
+      async authorize(credentials: any) {
         // Do zod validation, OTP validation here
 
         const hashedPassword = await bcrypt.hash(credentials.password, 10);
@@ -71,7 +71,6 @@ export const authOptions = {
               password: hashedPassword,
             },
           });
-
           return {
             id: user.id.toString(),
             name: user.name,
@@ -79,6 +78,8 @@ export const authOptions = {
             number: user.number,
           };
         } catch (e) {
+          alert(`error occured while creating user: ${e}`);
+
           console.error(e);
         }
 
@@ -94,7 +95,7 @@ export const authOptions = {
       }
       return token;
     },
-    session: ({ session, token, user }: any) => {
+    session: ({ session, token }: any) => {
       if (session.user) {
         session.user.id = token.id;
       }
