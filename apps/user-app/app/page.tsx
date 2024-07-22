@@ -10,5 +10,4 @@ export default async function Page() {
   } else {
     redirect("/api/auth/signin");
   }
-  // return <div className="text-red-400">Hello</div>;
 }
