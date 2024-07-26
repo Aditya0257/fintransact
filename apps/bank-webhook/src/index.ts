@@ -90,8 +90,16 @@ app.post("/onRampBankWebhook", async (req, res) => {
   // update the db -> onRamp status -> "Success"
 
   try {
-    await db.$transaction([
-      db.balance.update({
+    await db.$transaction(async (tx) => {
+      // Lock the balance row for update
+      await tx.$executeRaw`
+        SELECT * FROM "Balance" 
+        WHERE "userId" = ${paymentInformation.userId} 
+        FOR UPDATE
+      `;
+
+      // increment the balance
+      await tx.balance.update({
         where: {
           userId: paymentInformation.userId,
         },
@@ -100,17 +108,18 @@ app.post("/onRampBankWebhook", async (req, res) => {
             increment: Number(paymentInformation.amount),
           },
         },
-      }),
+      });
 
-      db.onRampTransaction.update({
+      // Update the onRampTransaction status
+      await tx.onRampTransaction.update({
         where: {
           token: paymentInformation.onRampToken,
         },
         data: {
           status: RampStatus.Success,
         },
-      }),
-    ]);
+      });
+    });
 
     res.status(201).json({
       success: true,
