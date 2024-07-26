@@ -14,11 +14,16 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String? @unique
-  name     String?
-  number   String? @unique
-  password String
+  id                 Int                  @id @default(autoincrement())
+  email              String?              @unique
+  name               String
+  number             String               @unique
+  password           String
+  OnRampTransaction  OnRampTransaction[]
+  OffRampTransaction OffRampTransaction[]
+  Balance            Balance?
+  sentTransfers      p2pTransfer[]        @relation(name: "FromUserRelation")
+  receivedTransfers  p2pTransfer[]        @relation(name: "ToUserRelation")
 }
 
 model Merchant {
@@ -31,4 +36,50 @@ model Merchant {
 enum AuthType {
   Google
   Github
+}
+
+model Balance {
+  id     Int  @id @default(autoincrement())
+  amount Int  @default(0)
+  locked Int  @default(0)
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+}
+
+model OnRampTransaction {
+  id        Int        @id @default(autoincrement())
+  amount    Int
+  userId    Int
+  user      User       @relation(fields: [userId], references: [id])
+  status    RampStatus
+  startTime DateTime   @default(now())
+  token     String     @unique
+  provider  String
+}
+
+model OffRampTransaction {
+  id        Int        @id @default(autoincrement())
+  amount    Int
+  userId    Int
+  user      User       @relation(fields: [userId], references: [id])
+  status    RampStatus
+  startTime DateTime   @default(now())
+  token     String     @unique
+  provider  String
+}
+
+model p2pTransfer {
+  id         Int      @id @default(autoincrement())
+  amount     Int
+  timestamp  DateTime @default(now())
+  fromUserId Int
+  fromUser   User     @relation(name: "FromUserRelation", fields: [fromUserId], references: [id])
+  toUserId   Int
+  toUser     User     @relation(name: "ToUserRelation", fields: [toUserId], references: [id])
+}
+
+enum RampStatus {
+  Success
+  Failure
+  Processing
 }
