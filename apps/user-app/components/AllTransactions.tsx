@@ -1,25 +1,35 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { Transactions } from "./onRampTransactionsCard";
-import { getPageTransactions } from "../lib/actions/getPageTransactions";
+import { getPageOnRampTransactions } from "../lib/actions/getPageOnRampTransactions";
 import { PaginationControls } from "./PaginationControls";
+import { getPageP2PTransactions } from "../lib/actions/getPageP2PTransactions";
+import { TransactionType } from "../app/(dashboard)/transactions/page";
 
-const transactionsPerPage = 10;
+const transactionsPerPage = 9;
 
-export function AllTransactions() {
+export function AllTransactions({ type }: { type: TransactionType }) {
   const [transactions, setTransactions] = useState<Transactions[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
+  // console.log("Transactions type: ", type);
+
   async function fetchTransactions(page: number, transactionsPerPage: number) {
-    const response = await getPageTransactions(page, transactionsPerPage);
-    setTransactions(response.transactions);
+    let response;
+    if (type === TransactionType.OnRamp) {
+      response = await getPageOnRampTransactions(page, transactionsPerPage);
+    } else if (type === TransactionType.Peer2Peer) {
+      response = await getPageP2PTransactions(page, transactionsPerPage);
+    }
+    if (response?.transactions) {
+      setTransactions(response.transactions);
+    }
   }
 
   useEffect(() => {
     const loadTransactions = async () => {
-
       setLoading(true);
       try {
         await fetchTransactions(currentPage, transactionsPerPage);
@@ -32,11 +42,10 @@ export function AllTransactions() {
     };
 
     loadTransactions();
-
-  }, [currentPage]);
+  }, [currentPage, type]);
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   if (!transactions.length) {
@@ -47,7 +56,6 @@ export function AllTransactions() {
     setCurrentPage(page);
   }
 
-
   const totalPages = Math.ceil(transactions.length / transactionsPerPage);
   const startIndex = (currentPage - 1) * transactionsPerPage;
   const endIndex = startIndex + transactionsPerPage;
@@ -55,13 +63,13 @@ export function AllTransactions() {
 
   return (
     <div>
-      <div className="pt-8">
+      <div className="mt-5">
         {displayedTransactions.map((trnsc) => (
           <div className="flex justify-between pb-2 px-2 border-b rounded-md  border-gray-300 mb-3 ">
             <div className="flex flex-col justify-center gap-y-1">
               <div className="text-sm">From {trnsc.provider}</div>
               <div className="text-slate-600 text-xs">
-                Received on {trnsc.time.toDateString()}
+                Received on {trnsc.startTime.toString()}
               </div>
             </div>
             <div className="flex flex-col justify-center gap-y-1">
@@ -72,8 +80,13 @@ export function AllTransactions() {
         ))}
       </div>
       <div className="fixed bottom-5 left-1/2 z-50 ">
-        <PaginationControls currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );
 }
+

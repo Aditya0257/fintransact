@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { getOnRampRecentTransactions } from "../lib/actions/getOnRampRecentTransactions";
 
 export interface Transactions {
-  time: Date;
+  startTime: Date;
   amount: number;
   provider: string;
   status: RampStatus;
@@ -19,7 +19,10 @@ export const OnRampTransactionsCard = () => {
 
   async function fetchRecentTransactions() {
     const response = await getOnRampRecentTransactions();
-    setTransactions(response.transactions);
+    if (response?.transactions) {
+      setTransactions(response.transactions);
+    }
+    // console.log("Transactions: ", response.transactions);
   }
 
   useEffect(() => {
@@ -61,7 +64,7 @@ export const OnRampTransactionsCard = () => {
             <div>
               <div className="text-sm">From {trnsc.provider}</div>
               <div className="text-slate-600 text-xs">
-                Received on {trnsc.time.toDateString()}
+                Received on {trnsc.startTime.toDateString()}
               </div>
             </div>
             <div className="flex flex-col justify-center">

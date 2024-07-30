@@ -4,8 +4,10 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import db from "@repo/db/client";
 
-export async function getOnRampRecentTransactions() {
-  
+export async function getPageOnRampTransactions(
+  page: number,
+  transactionsPerPage: number,
+) {
   const session = await getServerSession(authOptions);
   if (!session?.user || !session.user?.id) {
     return {
@@ -25,10 +27,9 @@ export async function getOnRampRecentTransactions() {
     },
   });
 
+  // console.log(transactions);
+
   return {
     transactions,
   };
-
-
-
 }
