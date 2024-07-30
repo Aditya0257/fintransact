@@ -1,4 +1,6 @@
-# My Project
+# FinTransact
+
+This project aims to create a comprehensive financial transaction platform that facilitates various types of transactions, including on-ramping, peer to peer transaction with customized settings to lock certain amount of money for improved money management.
 
 ## System Architecture
 
@@ -33,3 +35,21 @@ docker run  -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
 
 Now, your webhook server, netbanking simulating appln. ( + for sending bank server's payment confirmation request to webhook server) and user-app have been started.
 You can send requests and try to simulate the appln -> bank server -> webhook -> DB update -> appln. architecture
+
+## To-Do List
+
+- P2P Integration, both FE & BE.
+- Dashboard using react libraries for graphs like chart.js
+- Websocket Server to send balance update and "Processing" to "Success" status update for an OnRamp Transaction as soon as webhook updates DB.
+- Setting Page design and logic to allow user to change username and also to set certain amount of balance to be locked for money management.
+- Transactions Page filter option - based on StartDate and EndDate.
+
+## Contributing
+
+We welcome contributions from everyone! If you are interested in contributing to this project, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix.
+3. Make your changes and commit them with clear and concise messages.
+4. Push your branch to your forked repository.
+5. Open a pull request to the main branch of this repository with a detailed description of your changes.
