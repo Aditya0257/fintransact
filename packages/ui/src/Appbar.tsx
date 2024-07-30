@@ -16,7 +16,7 @@ interface AppbarProps {
 
 export const Appbar = ({ user, onSignin, onSignout }: AppbarProps) => {
   return (
-    <div className="flex justify-between border-b border-slate-300 px-4">
+    <div className="sticky top-0 z-50 flex justify-between items-center border-b border-slate-300 px-4 ">
       <div className="flex flex-col justify-center text-lg">Wallet App</div>
       <div className="gap-x-4 pt-2 flex">
         <Button onClick={user ? onSignout : onSignin}>

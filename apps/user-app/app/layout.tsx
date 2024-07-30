@@ -20,9 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <Providers>
         <body className={inter.className}>
-          <div className="min-h-screen min-w-screen bg-[#ebe6e6]">
-            <AppbarClient />
-            {children}
+          <div className="flex flex-col h-screen min-w-screen bg-[#ebe6e6] overflow-auto">
+            <div className="sticky top-0 z-50"><AppbarClient /></div>
+            <div className="flex flex-grow overflow-auto">{children}</div>
           </div>
         </body>
       </Providers>

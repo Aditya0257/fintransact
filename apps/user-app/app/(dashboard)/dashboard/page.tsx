@@ -1,33 +1,19 @@
-"use client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../../lib/auth";
 
-import { startOnRampTransaction } from "../../../lib/actions/startOnRampTransaction";
+export default async function () {
+  const session = await getServerSession(authOptions);
+  const time = new Date();
+  const hours = time.getHours();
 
-export default function () {
-  async function handleClick() {
-    try {
-      const res = await startOnRampTransaction("HDFC", 300);
-      const href_url = "http://localhost:5173/netbanking";
-      // console.log(res);
-      if (!res.batoken) {
-        console.log("no batoken returned");
-      } else {
-        console.log(res.batoken);
-      }
-
-      window.location.href = `${href_url}?batoken=${res.batoken}`;
-    } catch (error) {
-      console.error("Error occurred:", error);
-    }
-  }
+  const user = session?.user;
 
   return (
-    <div className="flex flex-col">
-      <div>Dashboard</div>
-      <div>
-        <button type="button" onClick={handleClick}>
-          StartOnRamp
-        </button>
+    <div className="pt-4 flex flex-col h-full w-full px-2">
+      <div className="font-bold rounded-lg text-3xl text-[#6d28d9] ">
+        Good {hours < 12 ? "Morning" : hours >= 12 && hours <= 17 ? "Afternoon" : "Evening"}, {user?.name}
       </div>
+      
     </div>
   );
 }
