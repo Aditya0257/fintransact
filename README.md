@@ -2,6 +2,20 @@
 
 This project aims to create a comprehensive financial transaction platform that facilitates various types of transactions, including on-ramping, peer to peer transaction with customized settings to lock certain amount of money for improved money management.
 
+## Tech Stack
+
+- Turborepo (Build system orchestrator) with npm workspace as Monorepo
+- next.js(FinTransact app - both BE & FE)
+- Express(Webhook server)
+- React + Vite(netbanking simulation FE)
+- Postgres DB with Prisma ORM
+- Recoil (Client side state management)
+
+### To be implemented:
+
+- CI-CD pipeline for automatic integration on commit by running build tests and deployment to EC2 Server as a docker image
+- Websockets for listening to OnRampTransaction status update in DB from webhook side, then updating it in client side.
+
 ## System Architecture
 
 ![OnRamping System Architecture & Workflow](https://github.com/Aditya0257/fintransact/blob/master/onRampTransc_lightmode_img.png)
@@ -46,7 +60,7 @@ You can send requests and try to simulate the appln -> bank server -> webhook ->
 
 ## Contributing
 
-We welcome contributions from everyone! If you are interested in contributing to this project, please follow these steps:
+I welcome contributions from everyone! If you are interested in contributing to this project, please follow these steps:
 
 1. Fork the repository.
 2. Create a new branch for your feature or bugfix.
