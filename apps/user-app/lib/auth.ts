@@ -67,16 +67,29 @@ export const authOptions = {
           return null;
         }
 
-        // new user
+        // new user with a new balance -> initially amount -> 0 => user needs to onRamp from bank
 
         try {
-          const user = await db.user.create({
-            data: {
-              name: credentials.name,
-              number: credentials.phone,
-              password: hashedPassword,
-            },
+          const { user, balance } = await db.$transaction(async (tx) => {
+            const user = await tx.user.create({
+              data: {
+                name: credentials.name,
+                number: credentials.phone,
+                password: hashedPassword,
+              },
+            });
+
+            const balance = await tx.balance.create({
+              data: {
+                amount: 0,
+                locked: 0,
+                userId: Number(user.id.toString()),
+              },
+            });
+
+            return { user, balance };
           });
+
           return {
             id: user.id.toString(),
             name: user.name,
