@@ -1,7 +1,5 @@
 # My Project
 
-This is a brief description of my project.
-
 ## System Architecture
 
 ![OnRamping System Architecture & Workflow](https://github.com/Aditya0257/fintransact/blob/master/onRampTransc_lightmode_img.png)
