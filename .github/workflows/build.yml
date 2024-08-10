@@ -28,7 +28,7 @@ jobs:
       - name: Docker Compose Down
         run: docker-compose down
 
-# __________________________________________________ (mannual way)
+# __________________________________________________ (manual way)
 
     # steps:
     #   - name: Checkout Code
