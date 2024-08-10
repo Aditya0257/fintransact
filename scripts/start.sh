@@ -14,4 +14,5 @@ if [ ! -f /app/.setup_done ]; then
 fi
 
 # Start your application
+echo "Starting the application..."
 npm run dev

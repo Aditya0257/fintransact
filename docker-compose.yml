@@ -18,10 +18,11 @@ services:
       - ./apps/bankservice-app:/app/apps/bankservice-app # Mount the bankservice-app for live updates
       - /app/node_modules                               # Avoid mounting node_modules
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
-      - NEXTAUTH_SECRET=<your jwt secret key>           # For user-app
+      - NEXTAUTH_SECRET=userjwtsecret                   # For user-app
       - NEXTAUTH_URL=http://localhost:4004              # For user-app
       - JWT_SECRET=myjwtsecret                          # For user-app
       - GOOGLE_CLIENT_ID=""
