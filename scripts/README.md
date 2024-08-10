@@ -1,4 +1,4 @@
-# README: Dockerfile Optimization and the Use of `start.sh`
+# Dockerfile Optimization and the Use of `start.sh`
 
 ## Issue Summary
 
