@@ -8,7 +8,7 @@ import "dotenv/config";
 const app = express();
 app.use(cors());
 app.use(express.json());
-const port = 3002;
+const port = 4000;
 
 app.post("/onRampBankWebhook", async (req, res) => {
   // do zod validation here

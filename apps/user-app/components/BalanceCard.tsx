@@ -3,8 +3,8 @@ import { getUserBalance } from "../lib/actions/getUserBalance";
 
 export const BalanceCard = async () => {
   const response = await getUserBalance();
-  const totalBalance = response.totalBalance;
-  const lockedBalance = response.lockedBalance;
+  const totalBalance = response.totalBalance ?? 0;
+  const lockedBalance = response.lockedBalance ?? 0;
 
   return (
     <Card title="Balance">

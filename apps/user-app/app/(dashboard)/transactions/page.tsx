@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { AllTransactions } from "../../../components/AllTransactions";
 
-export enum TransactionType {
-  "OnRamp",
-  "Peer2Peer",
+enum TransactionType {
+  OnRamp,
+  Peer2Peer,
 }
 
 export default function TransactionsPage() {

@@ -5,7 +5,12 @@ import { Transactions } from "./onRampTransactionsCard";
 import { getPageOnRampTransactions } from "../lib/actions/getPageOnRampTransactions";
 import { PaginationControls } from "./PaginationControls";
 import { getPageP2PTransactions } from "../lib/actions/getPageP2PTransactions";
-import { TransactionType } from "../app/(dashboard)/transactions/page";
+// import { TransactionType } from "../app/(dashboard)/transactions/page";
+
+enum TransactionType {
+  OnRamp,
+  Peer2Peer,
+}
 
 const transactionsPerPage = 9;
 
@@ -89,4 +94,3 @@ export function AllTransactions({ type }: { type: TransactionType }) {
     </div>
   );
 }
-
