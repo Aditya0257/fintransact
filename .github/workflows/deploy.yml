@@ -22,74 +22,75 @@
 # Note: Make sure to add the necessary secrets (e.g., SSH credentials, Docker Hub credentials) in GitHub Actions for secure deployment.
 
 
-name: Build and Deploy to Docker Hub and EC2
 
-on:
-  push:
-    branches:
-      - master
+# name: Build and Deploy to Docker Hub and EC2
 
-jobs:
-  build-and-push:
-    runs-on: ubuntu-latest
+# on:
+#   push:
+#     branches:
+#       - master
 
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+# jobs:
+#   build-and-push:
+#     runs-on: ubuntu-latest
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+#     steps:
+#     - name: Checkout Code
+#       uses: actions/checkout@v3
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+#     - name: Set up Docker Buildx
+#       uses: docker/setup-buildx-action@v2
 
-    - name: Build and Push Docker Image
-      uses: docker/build-push-action@v4
-      with:
-        context: .
-        file: ./Dockerfile
-        push: true
-        tags: your-docker-hub-username/fintransact-app:latest
+#     - name: Log in to Docker Hub
+#       uses: docker/login-action@v2
+#       with:
+#         username: ${{ secrets.DOCKER_USERNAME }}
+#         password: ${{ secrets.DOCKER_PASSWORD }}
 
-  deploy-to-ec2:
-    needs: build-and-push
-    runs-on: ubuntu-latest
+#     - name: Build and Push Docker Image
+#       uses: docker/build-push-action@v4
+#       with:
+#         context: .
+#         file: ./Dockerfile
+#         push: true
+#         tags: your-docker-hub-username/fintransact-app:latest
 
-    steps:
-    - name: Deploy to EC2
-      uses: appleboy/ssh-action@v0.1.7
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          # Stop and remove the existing container if running
-          sudo docker stop fintransact_app || true
-          sudo docker rm fintransact_app || true
+#   deploy-to-ec2:
+#     needs: build-and-push
+#     runs-on: ubuntu-latest
 
-          # Pull the latest image from Docker Hub
-          sudo docker pull your-docker-hub-username/fintransact-app:latest
+#     steps:
+#     - name: Deploy to EC2
+#       uses: appleboy/ssh-action@v0.1.7
+#       with:
+#         host: ${{ secrets.SSH_HOST }}
+#         username: ${{ secrets.SSH_USERNAME }}
+#         key: ${{ secrets.SSH_KEY }}
+#         script: |
+#           # Stop and remove the existing container if running
+#           sudo docker stop fintransact_app || true
+#           sudo docker rm fintransact_app || true
 
-          # Run the container with the new image
-          sudo docker run -d \
-            --name fintransact_app \
-            -p 5173:5173 \
-            -p 4004:4004 \
-            -p 4008:4008 \
-            -p 4000:4000 \
-            -e DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres \
-            -e NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} \
-            -e NEXTAUTH_URL=http://localhost:4004 \
-            -e JWT_SECRET=myjwtsecret \
-            -e GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
-            -e GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
-            -e GITHUB_ID=${{ secrets.GITHUB_ID }} \
-            -e GITHUB_SECRET=${{ secrets.GITHUB_SECRET }} \
-            -e BWS_TOKEN_VAL=mybwstoken \
-            -e FINTRANSACT_FRONTEND_URL=http://localhost:5173 \
-            -e WEBHOOK_BACKEND_URL=http://localhost:4000 \
-            your-docker-hub-username/fintransact-app:latest
+#           # Pull the latest image from Docker Hub
+#           sudo docker pull your-docker-hub-username/fintransact-app:latest
+
+#           # Run the container with the new image
+#           sudo docker run -d \
+#             --name fintransact_app \
+#             -p 5173:5173 \
+#             -p 4004:4004 \
+#             -p 4008:4008 \
+#             -p 4000:4000 \
+#             -e DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres \
+#             -e NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} \
+#             -e NEXTAUTH_URL=http://localhost:4004 \
+#             -e JWT_SECRET=myjwtsecret \
+#             -e GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
+#             -e GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
+#             -e GITHUB_ID=${{ secrets.GITHUB_ID }} \
+#             -e GITHUB_SECRET=${{ secrets.GITHUB_SECRET }} \
+#             -e BWS_TOKEN_VAL=mybwstoken \
+#             -e FINTRANSACT_FRONTEND_URL=http://localhost:5173 \
+#             -e WEBHOOK_BACKEND_URL=http://localhost:4000 \
+#             your-docker-hub-username/fintransact-app:latest
 
