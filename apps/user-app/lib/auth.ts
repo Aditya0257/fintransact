@@ -41,6 +41,10 @@ export const authOptions = {
         },
       },
       async authorize(credentials: any) {
+
+        console.log("_________________________________________________");
+        console.log("Inside authorize function...");
+        console.log("_________________________________________________");
         // Do zod validation, OTP validation here
 
         const hashedPassword = await bcrypt.hash(credentials.password, 10);

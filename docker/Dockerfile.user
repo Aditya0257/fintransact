@@ -1,0 +1,24 @@
+# Base image for Node.js
+FROM node:lts-alpine AS base
+
+# Install PostgreSQL client to use pg_isready, bash, and dos2unix
+RUN apk --no-cache add postgresql-client bash dos2unix
+
+WORKDIR /app
+
+# Copy package files and application code
+COPY package.json package-lock.json turbo.json tsconfig.json ./
+COPY apps ./apps
+COPY packages ./packages
+
+# Install dependencies
+RUN npm install
+
+# Copy start.sh script
+COPY scripts/start.sh /app/start.sh
+
+# Ensure start.sh has the correct line endings and is executable
+RUN dos2unix /app/start.sh && chmod +x /app/start.sh
+
+# Run start.sh script and then the app
+CMD ["/app/start.sh", "npm", "run", "start-inDevMode-user-app"]

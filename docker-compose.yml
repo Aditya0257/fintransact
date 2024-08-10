@@ -1,39 +1,58 @@
 version: "3.5"
 
 services:
-  app:
+  user-app:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: fintransact_app
+      dockerfile: docker/Dockerfile.user
+    container_name: user_app
     ports:
-      - "5173:5173"   # For bankservice-app (frontend)
-      - "4004:4004"   # For user-app (backend)
-      - "4008:4008"   # For merchant-app (backend)
-      - "4000:4000"   # For bank-webhook (backend)
-    volumes:
-      - ./apps/user-app:/app/apps/user-app              # Mount the user-app for live updates
-      - ./apps/merchant-app:/app/apps/merchant-app      # Mount the merchant-app for live updates
-      - ./apps/bank-webhook:/app/apps/bank-webhook      # Mount the bank-webhook app for live updates
-      - ./apps/bankservice-app:/app/apps/bankservice-app # Mount the bankservice-app for live updates
-      - /app/node_modules                               # Avoid mounting node_modules
-    depends_on:
-      - db
+      - "4004:4004"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
-      - NEXTAUTH_SECRET=<your jwt secret key>           # For user-app
-      - NEXTAUTH_URL=http://localhost:4004              # For user-app
-      - JWT_SECRET=myjwtsecret                          # For user-app
+      - NEXTAUTH_SECRET=userjwtsecret
+      - NEXTAUTH_URL=http://localhost:4004
+      - JWT_SECRET=myjwtsecret
+
+  merchant-app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.merchant
+    container_name: merchant_app
+    ports:
+      - "4008:4008"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
       - GOOGLE_CLIENT_ID=""
       - GOOGLE_CLIENT_SECRET=""
       - GITHUB_ID=""
       - GITHUB_SECRET=""
-      - NEXTAUTH_SECRET=<your merchant app jwt secret key>  # For merchant-app
-      - NEXTAUTH_URL=http://localhost:4008                  # For merchant-app
-      - BWS_TOKEN_VAL=mybwstoken                            # For bank-webhook and bankservice-app
-      - FINTRANSACT_FRONTEND_URL=http://localhost:5173      # For bankservice-app
-      - WEBHOOK_BACKEND_URL=http://localhost:4000           # For bankservice-app
-    # command: ["npm", "run", "dev"]  # Start all apps
+      - NEXTAUTH_URL=http://localhost:4008
+      - NEXTAUTH_SECRET=merchantjwtsecret
+
+  bank-webhook:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.bank-webhook
+    container_name: bank_webhook
+    ports:
+      - "4000:4000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+      - BWS_TOKEN_VAL=mybwstoken
+
+  bankservice-app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.bankservice-app
+    container_name: bankservice_app
+    ports:
+      - "5173:5173"
+    environment:
+      # - VITE_DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+      - VITE_BWS_TOKEN_VAL=mybwstoken
+      - VITE_FINTRANSACT_FRONTEND_URL=http://localhost:4004
+      - VITE_WEBHOOK_BACKEND_URL=http://localhost:4000
 
   db:
     image: postgres:alpine
