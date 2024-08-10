@@ -14,7 +14,6 @@ This project aims to create a comprehensive financial transaction platform that 
 ### Completed:
 CI/CD pipeline for automatic integration on commit by running build tests whenever we have pull request on master branch
 
-
 ### To be implemented:
 
 - CI-CD pipeline for automatic integration on commit by running build tests and deployment to EC2 Server as a docker image
