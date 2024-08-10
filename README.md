@@ -11,6 +11,10 @@ This project aims to create a comprehensive financial transaction platform that 
 - Postgres DB with Prisma ORM
 - Recoil (Client side state management)
 
+### Completed:
+CI/CD pipeline for automatic integration on commit by running build tests whenever we have pull request on master branch
+
+
 ### To be implemented:
 
 - CI-CD pipeline for automatic integration on commit by running build tests and deployment to EC2 Server as a docker image
@@ -27,7 +31,21 @@ This project aims to create a comprehensive financial transaction platform that 
 
 ```jsx
 git clone https://github.com/Aditya0257/fintransact.git
+cd fintransact
 ```
+
+### Docker Setup (Preferred)
+
+- Run Docker Compose to build and start the services:
+
+```jsx
+docker compose build --no-cache
+docker compose up
+```
+
+- The application should now be up and running. You can access the services on the appropriate ports configured in the docker-compose.yml file.
+
+### Manual Setup
 
 - npm install
 - Run postgres either locally or on the cloud (neon.tech or console.aiven.io/)
