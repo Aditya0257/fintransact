@@ -67,7 +67,7 @@ docker run  -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
 - Go to `apps/bank-webhook` , run `npm run dev`
 
 Now, your webhook server, netbanking simulating appln. ( + for sending bank server's payment confirmation request to webhook server) and user-app have been started.
-You can send requests and try to simulate the appln -> bank server -> webhook -> DB update -> appln. architecture
+You can send requests and try to simulate the appln. -> bank server -> webhook -> DB update -> appln. architecture
 
 ## To-Do List
 
