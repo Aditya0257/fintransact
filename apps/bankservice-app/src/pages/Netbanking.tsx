@@ -142,7 +142,7 @@ function BankCard({ payload }: { payload: jwtPayload | null }) {
       <div className="flex w-11/12 pt-2 justify-between">
         <div className="flex gap-x-7">
           <div className="flex flex-col justify-start pt-2">
-            Customer ID/ User ID
+            Customer ID/ Username :
           </div>
           <div className="flex flex-col">
             <input
@@ -160,11 +160,10 @@ function BankCard({ payload }: { payload: jwtPayload | null }) {
               onClick={async () => {
                 const username = name;
                 if (username === payload.name) {
-                  // redirect back to fintransact user-end application
-                  window.location.href = `${import.meta.env.VITE_FINTRANSACT_FRONTEND_URL}/transfer`;
+
 
                   // send payment confirmation request to bank-server
-                  await new Promise((resolve) => setTimeout(resolve, 100));
+                  await new Promise((resolve) => setTimeout(resolve, 500));
 
                   // then bank server will send confirmation request to our webhook server => which we are
                   // simulating from here -> since this is simulation of a real transacting bank server, but we dont
@@ -175,7 +174,13 @@ function BankCard({ payload }: { payload: jwtPayload | null }) {
                   // again send the confirmation to webhook server in case webhook server was down for some time
 
                   // Bank Server retries for sometime in case of failing requests, else refunds the user account -> when onRamp fails
+
                   sendWebhookRequest(payload);
+                  // redirect back to fintransact user-end application
+                  
+                  window.location.href = `${import.meta.env.VITE_FINTRANSACT_FRONTEND_URL}/transfer`;
+
+
                 } else {
                   alert("Wrong username");
                 }

@@ -31,11 +31,11 @@ const SUPPORTED_BANKS = [
 ];
 
 export function AddMoneyCard() {
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
   const [provider, setProvider] = useState("TestBank");
   const [redirectUrl, setRedirectUrl] = useState(SUPPORTED_BANKS[0]?.href);
 
-  function handleInputChange(value: string) {
+  function handleInputChange(value: number) {
     setAmount(value);
   }
 
@@ -61,6 +61,7 @@ export function AddMoneyCard() {
       <TextInput
         label="Amount"
         placeholder="Amount"
+        value={amount}
         onChangeParent={handleInputChange}
       />
       <div className="text-sm font-medium text-gray-900">Bank</div>

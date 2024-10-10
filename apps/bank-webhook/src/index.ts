@@ -105,7 +105,7 @@ app.post("/onRampBankWebhook", async (req, res) => {
         },
         data: {
           amount: {
-            increment: Number(paymentInformation.amount),
+            increment: Number(paymentInformation.amount) * 100,
           },
         },
       });

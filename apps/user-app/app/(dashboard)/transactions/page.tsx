@@ -1,17 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AllTransactions } from "../../../components/AllTransactions";
+import { useSearchParams } from "next/navigation";
 
-enum TransactionType {
-  OnRamp,
-  Peer2Peer,
+export enum TransactionType {
+  OnRamp = "OnRamp",
+  Peer2Peer = "Peer2Peer",
 }
 
 export default function TransactionsPage() {
+
+  const searchParams = useSearchParams();
+  const initialTrnxType = searchParams.get('initialTrnxType')
+
+  console.log("initialTrnxType: ", initialTrnxType);
+
   const [selectedType, setSelectedType] = useState<TransactionType>(
-    TransactionType.OnRamp,
+    (typeof initialTrnxType === "string" && initialTrnxType === TransactionType.Peer2Peer.toString()) ? TransactionType.Peer2Peer : TransactionType.OnRamp
   );
+
+  useEffect(() => {
+    if (typeof initialTrnxType === "string") {
+      // Make sure we convert the string to the corresponding TransactionType
+      const type = initialTrnxType as TransactionType;
+      setSelectedType(type);
+    }
+  }, [initialTrnxType]);
 
   return (
     <div className="pt-4 flex flex-col h-full w-full px-2">
@@ -46,3 +61,4 @@ export default function TransactionsPage() {
     </div>
   );
 }
+

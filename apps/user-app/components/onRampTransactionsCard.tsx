@@ -6,7 +6,7 @@ import { ViewAllTransactionsButton } from "./ViewAllTransactionsButton";
 import { useEffect, useState } from "react";
 import { getOnRampRecentTransactions } from "../lib/actions/getOnRampRecentTransactions";
 
-export interface Transactions {
+export interface OnRampTransactionType {
   startTime: Date;
   amount: number;
   provider: string;
@@ -14,7 +14,7 @@ export interface Transactions {
 }
 
 export const OnRampTransactionsCard = () => {
-  const [transactions, setTransactions] = useState<Transactions[]>([]);
+  const [transactions, setTransactions] = useState<OnRampTransactionType[]>([]);
   const [loading, setLoading] = useState(false);
 
   async function fetchRecentTransactions() {
@@ -61,7 +61,7 @@ export const OnRampTransactionsCard = () => {
       <div className="pt-2  ">
         {displayedTransactions.map((trnsc) => (
           <div className="flex justify-between pb-1 px-1 border-b rounded-md  border-gray-300 mb-2 ">
-            <div>
+            <div className="flex flex-col justify-center">
               <div className="text-sm">From {trnsc.provider}</div>
               <div className="text-slate-600 text-xs">
                 Received on {trnsc.startTime.toDateString()}
