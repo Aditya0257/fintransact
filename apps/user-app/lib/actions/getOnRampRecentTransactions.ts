@@ -23,6 +23,10 @@ export async function getOnRampRecentTransactions() {
       provider: true,
       status: true,
     },
+    orderBy: {
+      startTime: 'desc', // Order by most recent transactions
+    },
+    take: 10, // Limit to 10 results
   });
 
   return {

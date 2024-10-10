@@ -25,6 +25,9 @@ export async function getPageOnRampTransactions(
       provider: true,
       status: true,
     },
+    orderBy: {
+      startTime: "desc",
+    },
   });
 
   // console.log(transactions);

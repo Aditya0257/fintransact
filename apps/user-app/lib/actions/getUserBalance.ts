@@ -24,7 +24,7 @@ export const getUserBalance = async () => {
   });
 
   return {
-    totalBalance: balance?.amount,
+    totalBalance: (balance?.amount ?? 0) / 100,
     lockedBalance: balance?.locked,
   };
 };

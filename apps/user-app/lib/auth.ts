@@ -114,12 +114,14 @@ export const authOptions = {
     jwt: async ({ user, token }: any) => {
       if (user) {
         token.id = user.id;
+        token.number = user.number;
       }
       return token;
     },
     session: ({ session, token }: any) => {
       if (session.user) {
         session.user.id = token.id;
+        session.user.number = token.number;
       }
       // console.log(session);
       return session;
