@@ -10,6 +10,7 @@ This project aims to create a comprehensive financial transaction platform that 
 - React + Vite(netbanking simulation FE)
 - Postgres DB with Prisma ORM
 - Recoil (Client side state management)
+- shadcn/ui
 
 ### Completed
 
