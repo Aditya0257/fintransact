@@ -19,8 +19,11 @@ jobs:
       - name: Install Docker Compose
         run: sudo apt-get install -y docker-compose
 
-      - name: Docker Compose Build
-        run: docker-compose build --no-cache
+      - name: Docker Compose Build Base
+        run: docker-compose build --no-cache base
+
+      - name: Docker Compose Build Other Services
+        run: docker-compose build
 
       - name: Docker Compose Up
         run: docker-compose up -d
