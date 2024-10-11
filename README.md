@@ -16,11 +16,12 @@ This project aims to create a comprehensive financial transaction platform that 
 
 - CI/CD pipeline for automatic integration on commit by running build tests whenever we have pull request on master branch
 - Containerized the application using docker, added docker-compose.yml file for easy installation.
+- Completed p2p transfer, fixed bugs, added bankservice-be service & base docker file image to reduce redundant rebuilding and downloading of dependencies in each image.
 
 ### To be implemented
 
-- CI-CD pipeline for automatic integration on commit by running build tests and deployment to EC2 Server as a docker image
 - Websockets for listening to OnRampTransaction status update in DB from webhook side, then updating it in client side.
+- shadcn/ui has been integrated, need to use its component to build dashboard charts, login page UI.
 
 ## System Architecture
 
@@ -41,7 +42,8 @@ cd fintransact
 - Run Docker Compose to build and start the services:
 
 ```jsx
-docker compose build --no-cache
+docker compose build base
+docker compose build 
 docker compose up
 ```
 
@@ -65,6 +67,7 @@ docker run  -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
   - npx prisma studio (prisma GUI for db)
 - Go to `apps/user-app` , run `npm run dev`
 - Go to `apps/bankservice-app` , run `npm run dev`
+- Go to `apps/bankservice-be` , run `npm run dev`
 - Go to `apps/bank-webhook` , run `npm run dev`
 
 Now, your webhook server, netbanking simulating appln. ( + for sending bank server's payment confirmation request to webhook server) and user-app have been started.

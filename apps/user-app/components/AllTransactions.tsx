@@ -24,15 +24,14 @@ export interface P2PMappedTransactionType {
   toUserContactNo: string;
 }
 
-
-const transactionsPerPage = 9;
-
 export function AllTransactions({ type }: { type: TransactionType }) {
 
   const [onRampTransactions, setOnRampTransactions] = useState<OnRampTransactionType[]>([]);
   const [p2pTransactions, setP2PTransactions] = useState<P2PMappedTransactionType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  const transactionsPerPage = type === TransactionType.OnRamp ? 8 : 7;
 
   const session = useSession(); // clientSideSession
   const userId = session?.data?.user?.id;
@@ -62,6 +61,9 @@ export function AllTransactions({ type }: { type: TransactionType }) {
     }
 
   }
+
+  
+
 
   useEffect(() => {
     const loadTransactions = async () => {

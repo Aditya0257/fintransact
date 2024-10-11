@@ -78,55 +78,6 @@ export const Netbanking = () => {
   );
 };
 
-async function sendWebhookRequest(
-  payload: jwtPayload,
-  retries = 5,
-  delay = 300000,
-) {
-  // delay in mili seconds -> 300000 ms = 5 minutes
-  try {
-    const res = await axios.post(
-      `${import.meta.env.VITE_WEBHOOK_BACKEND_URL}/onRampBankWebhook`,
-      {
-        onRampToken: payload.onRampToken,
-        amount: payload.amount,
-        userId: payload.userId,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          bwsToken: `${import.meta.env.VITE_BWS_TOKEN_VAL}`,
-        },
-      },
-    );
-
-    if (
-      res.data.success === true &&
-      (res.data.message === "Captured" ||
-        res.data.message === "Already Captured")
-    ) {
-      // stop sending retrial post requests for payment confirmation to webhook, as it already received
-      console.log("Payment confirmation successful:", res.data.message);
-      // Stop retrying
-      return true;
-    } else {
-      // resend the retrial request after some time -> throw to catch block for recursive calls
-      throw new Error("Payment confirmation failed");
-    }
-  } catch (e) {
-    console.error("Error occurred:", e);
-    if (retries > 0) {
-      setTimeout(() => {
-        sendWebhookRequest(payload, retries - 1, delay);
-      }, delay);
-    } else {
-      console.log("All retries failed. Initiating bank refunding simulation.");
-      console.log(
-        `Refunding ${payload.name} of userId: ${payload.userId} with ${payload.amount}, since payment confirmation to application's webhook failed after 5 retries!`,
-      );
-    }
-  }
-}
 
 function BankCard({ payload }: { payload: jwtPayload | null }) {
   const [name, setName] = useState("");
@@ -175,9 +126,13 @@ function BankCard({ payload }: { payload: jwtPayload | null }) {
 
                   // Bank Server retries for sometime in case of failing requests, else refunds the user account -> when onRamp fails
 
-                  sendWebhookRequest(payload);
+                  const res = await axios.post(`${import.meta.env.VITE_FINTRANSACT_BANKSERVICE_BE_URL}/sendWebhookRequest`, {
+                    payload: payload,
+                  });
+                  console.log(res);
+
                   // redirect back to fintransact user-end application
-                  
+
                   window.location.href = `${import.meta.env.VITE_FINTRANSACT_FRONTEND_URL}/transfer`;
 
 

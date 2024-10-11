@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Card } from "@repo/ui/card";
 import { ViewAllTransactionsButton } from "./ViewAllTransactionsButton";
@@ -16,7 +16,7 @@ export interface P2PTransactionType {
     timestamp: Date;
 }
 
-export const RecentP2PTransactionsCard = () => {
+export const RecentP2PTransactionsCard = ({ newTransaction }: any) => {
 
     const [transactions, setTransactions] = useState<P2PMappedTransactionType[]>([]);
     const [loading, setLoading] = useState(false);
@@ -50,7 +50,7 @@ export const RecentP2PTransactionsCard = () => {
         };
 
         loadTransactions();
-    }, []);
+    }, [newTransaction]);
 
     if (loading) {
         return <div>Loading...</div>;
