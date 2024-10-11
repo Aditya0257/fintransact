@@ -1,10 +1,31 @@
+"use client"
+
 import { Card } from "@repo/ui/card";
 import { getUserBalance } from "../lib/actions/getUserBalance";
+import { useEffect, useState } from "react";
 
-export const BalanceCard = async () => {
-  const response = await getUserBalance();
-  const totalBalance = response.totalBalance ?? 0;
-  const lockedBalance = response.lockedBalance ?? 0;
+export const BalanceCard = ({ newTransaction }: { newTransaction?: any }) => {
+  const [totalBalance, setTotalBalance] = useState<number>(0);  // Using state for total balance
+  const [lockedBalance, setLockedBalance] = useState<number>(0); 
+
+
+  useEffect(() => {
+
+    const callUserBalanceFn = async () => {
+      try {
+        const response = await getUserBalance();
+        setTotalBalance(response?.totalBalance ?? 0);
+        setLockedBalance(response?.lockedBalance ?? 0);
+      } catch (error) {
+        console.error("Error fetching balance:", error);
+        setTotalBalance(0);
+        setLockedBalance(0);
+      }
+    };
+
+    callUserBalanceFn();
+
+  }, [newTransaction])
 
   return (
     <Card title="Balance">

@@ -1,8 +1,17 @@
+"use client";
+
+import { useState } from "react";
 import { BalanceCard } from "../../../components/BalanceCard";
 import P2PTransferCard from "../../../components/P2PTransferCard";
 import { RecentP2PTransactionsCard } from "../../../components/RecentP2PTransactionsCard";
 
 export default function p2pTransferPage() {
+  // State to track when a new transaction is made
+  const [newTransaction, setNewTransaction] = useState(false);
+
+  const handleNewTransaction = () => {
+    setNewTransaction((prev) => !prev);  // Toggle state to trigger a re-render
+  };
 
   return (
     <div className="pt-4 flex flex-col h-full w-full px-2">
@@ -11,14 +20,14 @@ export default function p2pTransferPage() {
       </div>
       <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 max-h-fit ">
         <div className="flex flex-col">
-          <P2PTransferCard />
+          <P2PTransferCard onTransaction={handleNewTransaction} />
         </div>
         <div className="flex flex-col gap-y-2">
           <div>
-            <BalanceCard />
+            <BalanceCard newTransaction={newTransaction} />
           </div>
           <div>
-            <RecentP2PTransactionsCard />
+            <RecentP2PTransactionsCard newTransaction={newTransaction} />
           </div>
         </div>
       </div>

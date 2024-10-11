@@ -11,7 +11,7 @@ const SUPPORTED_BANKS = [
   {
     id: 1,
     name: "TestBank",
-    href: "http://localhost:5173/netbanking",
+    href: "http://localhost:4007/netbanking",
   },
   {
     id: 2,

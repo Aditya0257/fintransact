@@ -8,7 +8,7 @@ import "dotenv/config";
 const app = express();
 app.use(cors());
 app.use(express.json());
-const port = 4000;
+const port = 4006;
 
 app.post("/onRampBankWebhook", async (req, res) => {
   // do zod validation here
@@ -132,6 +132,13 @@ app.post("/onRampBankWebhook", async (req, res) => {
     });
   }
 });
+
+app.get("/*", (req, res) => {
+  console.log("in get /* request - for checking bank-webhook service health.")
+  res.json({
+    "message": "Hello World!",
+  })
+})
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);

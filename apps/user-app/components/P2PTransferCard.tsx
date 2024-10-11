@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from "@repo/ui/button";
 import { Card } from "@repo/ui/card";
@@ -7,7 +7,7 @@ import { useState } from "react";
 import { startP2PTransfer } from "../lib/actions/startP2PTransfer";
 import { useSession } from "next-auth/react";
 
-export default function P2PTransferCard() {
+export default function P2PTransferCard({ onTransaction }: any) {
     const [amount, setAmount] = useState(0);
     const [toNumber, setToNumber] = useState("");
     const session = useSession(); // clientSideSession
@@ -35,6 +35,8 @@ export default function P2PTransferCard() {
         } finally {
             setAmount(0);
             setToNumber("");
+            // Once the transaction is completed, notifying the parent component
+            onTransaction();
         }
     }
 
