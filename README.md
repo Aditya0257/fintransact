@@ -50,8 +50,7 @@ cd fintransact
     docker run -d -e POSTGRES_PASSWORD=mysecretpassword -e POSTGRES_USER=postgres -e POSTGRES_DB=postgres -p 5432:5432 timescale/timescaledb:latest-pg17
    ```
 
-3. **Create .env file**:
-   Copy all `.env.example` files to `.env` file
+3. **Create .env files**:
 
    ```bash
     DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:5432/postgres
