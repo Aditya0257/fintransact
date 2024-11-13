@@ -6,13 +6,8 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "db:generate": "cd packages/db && npx prisma generate && cd ../..",
-    "db:setup": "cd packages/db && npx prisma migrate dev && npx prisma generate && npx prisma db seed && cd ../..",
-    "start-inDevMode-bank-webhook-app": "cd ./apps/bank-webhook && npm run dev",
-    "start-inDevMode-bankservice-app": "cd ./apps/bankservice-app && npm run dev",
-    "start-inDevMode-bankservice-be": "cd ./apps/bankservice-be && npm run dev",
-    "start-inDevMode-merchant-app": "cd ./apps/merchant-app && npm run dev",
-    "start-inDevMode-user-app": "cd ./apps/user-app && npm run dev"
+    "db:setup": "cd packages/db && npx prisma migrate dev && npx prisma generate && npm run timeseries_db:setup && cd ../..",
+    "start": "npm run db:setup && npx turbo dev"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",

@@ -127,7 +127,7 @@ export const authOptions = {
       return session;
     },
   },
-  // pages: {
-  //   signIn: "/signin", // for custom signin page
-  // },
+  pages: {
+    signIn: "/signin", // for custom signin page
+  },
 };

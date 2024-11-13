@@ -6,7 +6,6 @@ import { getPageOnRampTransactions } from "../lib/actions/getPageOnRampTransacti
 import { PaginationControls } from "./PaginationControls";
 import { getPageP2PTransactions } from "../lib/actions/getPageP2PTransactions";
 import { useSession } from "next-auth/react";
-// import { P2PTransactionType } from "./RecentP2PTransactionsCard";
 
 export enum TransactionType {
   OnRamp = "OnRamp",

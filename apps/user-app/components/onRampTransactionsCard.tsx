@@ -59,8 +59,8 @@ export const OnRampTransactionsCard = () => {
   return (
     <Card title="Recent Transactions">
       <div className="pt-2  ">
-        {displayedTransactions.map((trnsc) => (
-          <div className="flex justify-between pb-1 px-1 border-b rounded-md  border-gray-300 mb-2 ">
+        {displayedTransactions.map((trnsc, index) => (
+          <div key={index} className="flex justify-between pb-1 px-1 border-b rounded-md  border-gray-300 mb-2 ">
             <div className="flex flex-col justify-center">
               <div className="text-sm">From {trnsc.provider}</div>
               <div className="text-slate-600 text-xs">

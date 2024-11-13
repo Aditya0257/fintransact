@@ -1,5 +1,0 @@
-# Dockerfile.bankservice-be
-FROM base AS bankservicebe
-
-# Run the app
-CMD ["npm", "run", "start-inDevMode-bankservice-be"]

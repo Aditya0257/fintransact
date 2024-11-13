@@ -1,7 +1,0 @@
-FROM base AS user
-
-# Ensure start.sh has the correct line endings and is executable
-RUN dos2unix /app/start.sh && chmod +x /app/start.sh
-
-# Run start.sh script and then the app
-CMD ["/app/start.sh", "npm", "run", "start-inDevMode-user-app"]
