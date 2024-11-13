@@ -4,7 +4,7 @@ import { Appbar, UserSessionType } from "@repo/ui/appbar";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-export function AppbarClient() {
+export function AppbarClient({visible}: {visible: boolean}) {
   const session = useSession();
   const router = useRouter();
 
@@ -13,11 +13,12 @@ export function AppbarClient() {
   return (
     <div>
       <Appbar
+        visible={visible}
         user={user}
         onSignin={signIn}
         onSignout={async () => {
-          await signOut();
-          router.push("/api/auth/signin");
+          await signOut({ redirect: false });
+          router.push("/signin");
         }}
       />
     </div>

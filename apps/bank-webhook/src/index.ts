@@ -72,6 +72,8 @@ app.post("/onRampBankWebhook", async (req, res) => {
     },
     select: {
       status: true,
+      userId: true,
+      amount: true,
     },
   });
 
@@ -84,6 +86,9 @@ app.post("/onRampBankWebhook", async (req, res) => {
       message: "Already Captured",
     });
   }
+
+  const userId = existingTransaction?.userId;
+  const amount = existingTransaction?.amount;
 
   // Transaction required - both need to be done together
   // increment user's wallet balance by amount
@@ -119,6 +124,14 @@ app.post("/onRampBankWebhook", async (req, res) => {
           status: RampStatus.Success,
         },
       });
+
+      // onRamp transaction
+      await tx.$queryRawUnsafe(`
+      INSERT INTO transactions (userId, category, amount, timestamp) 
+      VALUES (${Number(userId)}, 'onRamp', ${Number(amount)}, NOW()); 
+    `);
+
+      // since amount here comes from existing transaction -> so it is already in x100 multiplied form.
     });
 
     res.status(201).json({
@@ -134,11 +147,11 @@ app.post("/onRampBankWebhook", async (req, res) => {
 });
 
 app.get("/*", (req, res) => {
-  console.log("in get /* request - for checking bank-webhook service health.")
+  console.log("in get /* request - for checking bank-webhook service health.");
   res.json({
-    "message": "Hello World!",
-  })
-})
+    message: "Hello World!",
+  });
+});
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);

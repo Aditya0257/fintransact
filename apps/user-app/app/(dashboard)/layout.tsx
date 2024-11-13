@@ -1,4 +1,7 @@
+import { AppbarClient } from "../../components/AppbarClient";
 import { SidebarItem } from "../../components/SidebarItem";
+
+
 
 export default function Layout({
   children,
@@ -6,32 +9,38 @@ export default function Layout({
   children: React.ReactNode;
 }): JSX.Element {
   return (
-    <div className="flex h-full w-full overflow-auto">
-      <div className="flex flex-col border-r border-gray-300 h-3/5 justify-center w-72 p-4 gap-y-4">
-        <SidebarItem href={"/dashboard"} name="Home" Icon={<HomeIcon />} />
-        <SidebarItem
-          href={"/transfer"}
-          name="Transfer"
-          Icon={<TransferIcon />}
-        />
-        <SidebarItem
-          href={"/transactions"}
-          name="Transactions"
-          Icon={<TransactionsIcon />}
-        />
-        <SidebarItem
-          href={"/p2ptransfer"}
-          name="p2pTransfer"
-          Icon={<P2PTransferIcon />}
-        />
+    <div className="flex flex-col w-full h-full">
+      <div className="sticky top-0 z-50"><AppbarClient visible={true} /></div>
 
-        <SidebarItem
+
+      <div className="flex h-full w-full overflow-auto">
+
+        <div className="flex flex-col border-r border-gray-300 h-3/5 justify-center w-72 p-4 gap-y-4">
+          <SidebarItem href={"/dashboard"} name="Home" Icon={<HomeIcon />} />
+          <SidebarItem
+            href={"/transfer"}
+            name="Transfer"
+            Icon={<TransferIcon />}
+          />
+          <SidebarItem
+            href={"/transactions"}
+            name="Transactions"
+            Icon={<TransactionsIcon />}
+          />
+          <SidebarItem
+            href={"/p2ptransfer"}
+            name="p2pTransfer"
+            Icon={<P2PTransferIcon />}
+          />
+
+          {/* <SidebarItem
           href={"/settings"}
           name="Settings"
           Icon={<SettingsIcon />}
-        />
+        /> */}
+        </div>
+        <div className="flex-grow p-4 ">{children}</div>
       </div>
-      <div className="flex-grow p-4 ">{children}</div>
     </div>
   );
 }

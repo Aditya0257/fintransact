@@ -2,9 +2,13 @@
   "name": "@repo/db",
   "version": "0.0.0",
   "dependencies": {
-    "@prisma/client": "^5.17.0"
+    "@prisma/client": "^5.17.0",
+    "@types/node-cron": "^3.0.11",
+    "node-cron": "^3.0.3",
+    "pg": "^8.13.1"
   },
   "devDependencies": {
+    "@types/pg": "^8.11.10",
     "prisma": "5.17.0"
   },
   "exports": {
@@ -12,5 +16,12 @@
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
+  },
+  "scripts": {
+    "timeseries_db:setup": "cd time-series-setup && ts-node createTransactionsTable.ts && ts-node createHypertable.ts && cd ../prisma && npx prisma db seed && cd ../time-series-setup && ts-node createContinuousAggregates.ts && ts-node setRefreshPolicies.ts && cd ..",
+    "transaction:setup": "cd time-series-setup && ts-node createTransactionsTable.ts && cd ..",
+    "hypertable:setup": "cd time-series-setup && ts-node createHypertable.ts && cd ..",
+    "cont_aggregation:setup": "cd time-series-setup && ts-node createContinuousAggregates.ts && cd ..",
+    "refresh_policies:setup": "cd time-series-setup && ts-node setRefreshPolicies.ts && cd .."
   }
 }

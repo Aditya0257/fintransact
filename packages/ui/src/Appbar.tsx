@@ -10,11 +10,18 @@ export interface UserSessionType {
 
 interface AppbarProps {
   user?: UserSessionType;
+  visible: boolean;
   onSignin: () => void;
   onSignout: () => Promise<void>;
 }
 
-export const Appbar = ({ user, onSignin, onSignout }: AppbarProps) => {
+export const Appbar = ({ user, onSignin, onSignout, visible }: AppbarProps) => {
+
+  if(!visible) {
+    return <div></div>
+  }
+
+
   return (
     <div className="sticky top-0 z-50 flex justify-between items-center border-b border-slate-300 px-4 ">
       <div className="flex flex-col justify-center text-xl font-sans  ">
