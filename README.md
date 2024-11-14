@@ -137,6 +137,13 @@ Now, your webhook server, net-banking simulation application (for sending bank s
 - Websocket Server to send balance update and "Processing" to "Success" status update for an OnRamp Transaction as soon as webhook updates DB.
 - Setting Page design and logic to allow user to change username and also to set certain amount of balance to be locked for money management.
 
+## Some Screenshots on Appln
+
+![Login Page](https://github.com/Aditya0257/fintransact/blob/master/loginPage.png)
+![Dashboard Page](https://github.com/Aditya0257/fintransact/blob/master/dashboardPage.png)
+![onRampTransfer Page](https://github.com/Aditya0257/fintransact/blob/master/onRampTransferPage.png)
+![Transaction Page](https://github.com/Aditya0257/fintransact/blob/master/TransactionsPage.png)
+
 ## Contributing
 
 I welcome contributions from everyone! If you are interested in contributing to this project, please follow these steps:
